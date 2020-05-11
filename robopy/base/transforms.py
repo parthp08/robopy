@@ -284,7 +284,7 @@ def rpy2r(thetas, order='zyx', unit='rad'):
     Options::
         'deg'   Compute angles in degrees (radians default)
         'xyz'   Rotations about X, Y, Z axes (for a robot gripper)
-        'yxz'   Rotations about Y, X, Z axes (for a camera)
+        'yxz'   Rotations about Y, X, Z axes (for a camera)        
 
     Note::
     - Toolbox rel 8-9 has the reverse angle sequence as default.
@@ -301,41 +301,50 @@ def rpy2r(thetas, order='zyx', unit='rad'):
 
     if unit == 'deg':
         thetas = [[(angles * math.pi / 180) for angles in each_rpy] for each_rpy in thetas]
+
     if type(thetas[0]) is list:
         roll = [theta[0] for theta in thetas]
         pitch = [theta[1] for theta in thetas]
         yaw = [theta[2] for theta in thetas]
 
-        if order == 'xyz' or order == 'arm':
-            x = [rotx(theta) for theta in yaw]
-            y = [roty(theta) for theta in pitch]
-            z = [rotz(theta) for theta in roll]
-            xyz = [(x[i] * y[i] * z[i]) for i in range(len(thetas))]
-            xyz = [np.asmatrix(each.round(15)) for each in xyz]
-            if len(xyz) == 1:
-                return xyz[0]
-            else:
-                return xyz
-        if order == 'zyx' or order == 'vehicle':
-            z = [rotz(theta) for theta in yaw]
-            y = [roty(theta) for theta in pitch]
-            x = [rotx(theta) for theta in roll]
-            zyx = [(z[i] * y[i] * x[i]) for i in range(len(thetas))]
-            zyx = [np.asmatrix(each.round(15)) for each in zyx]
-            if len(zyx) == 1:
-                return zyx[0]
-            else:
-                return zyx
-        if order == 'yxz' or order == 'camera':
-            y = [roty(theta) for theta in yaw]
-            x = [rotx(theta) for theta in pitch]
-            z = [rotz(theta) for theta in roll]
-            yxz = [(y[i] * x[i] * z[i]) for i in range(len(thetas))]
-            yxz = [np.asmatrix(each.round(15)) for each in yxz]
-            if len(yxz) == 1:
-                return yxz[0]
-            else:
-                return yxz
+        if order == "arm":
+            order = "xyz"
+        elif order == "vehicle":
+            order = "zyx"
+        elif order == "camera":
+            order = "yxz"
+
+        assert order[0]!=order[1] and order[1]!=order[2], "order choice is constrained to not have two succesive rotation with same axis such as xxy or xzz"
+        angles_list = [yaw, pitch, roll]
+        p = 0
+        for axis in order:	# calculate x, y, z with given order
+        	if axis == 'x':
+        		x = [rotx(theta) for theta in angles_list[p]]
+        	elif axis == 'y':
+        		y = [roty(theta) for theta in angles_list[p]]
+        	elif axis == 'z':
+        		z = [rotz(theta) for theta in angles_list[p]]
+        	p += 1
+
+       	R = []	# rotation matrices
+       	r = 0
+       	while r < len(thetas):
+       		R.append(1)
+	        for axis in order:
+	        	if axis == 'x':
+	        		R[r] *= x[r]
+	        	elif axis == 'y':
+	        		R[r] *= y[r]
+	        	elif axis == 'z':
+	        		R[r] *= z[r]   	
+        	r += 1
+
+        R = [np.asmatrix(each.round(15)) for each in R]
+        if len(R) == 1:
+            return R[0]
+        else:
+            return R
+    
     else:
         raise TypeError('thetas must be a list of roll pitch yaw angles\n'
                         'OR a list of list of roll pitch yaw angles.')
