@@ -16,11 +16,11 @@ def rotx(theta, unit="rad"):
     """
     ROTX gives rotation about X axis
 
-    :param theta: angle for rotation matrix
+    :param theta: angle for rotation array
     :param unit: unit of input passed. 'rad' or 'deg'
-    :return: rotation matrix
+    :return: rotation array
 
-    rotx(THETA) is an SO(3) rotation matrix (3x3) representing a rotation
+    rotx(THETA) is an SO(3) rotation array (3x3) representing a rotation
     of THETA radians about the x-axis
     rotx(THETA, "deg") as above but THETA is in degrees
     """
@@ -29,8 +29,8 @@ def rotx(theta, unit="rad"):
         theta = theta * math.pi / 180
     ct = math.cos(theta)
     st = math.sin(theta)
-    mat = np.matrix([[1, 0, 0], [0, ct, -st], [0, st, ct]])
-    mat = np.asmatrix(mat.round(15))
+    mat = np.array([[1, 0, 0], [0, ct, -st], [0, st, ct]])
+    mat = np.around(mat,15)
     return mat
 
 
@@ -39,11 +39,11 @@ def roty(theta, unit="rad"):
     """
     ROTY Rotation about Y axis
 
-    :param theta: angle for rotation matrix
+    :param theta: angle for rotation array
     :param unit: unit of input passed. 'rad' or 'deg'
-    :return: rotation matrix
+    :return: rotation array
 
-    roty(THETA) is an SO(3) rotation matrix (3x3) representing a rotation
+    roty(THETA) is an SO(3) rotation array (3x3) representing a rotation
     of THETA radians about the y-axis
     roty(THETA, "deg") as above but THETA is in degrees
     """
@@ -52,8 +52,8 @@ def roty(theta, unit="rad"):
         theta = theta * math.pi / 180
     ct = math.cos(theta)
     st = math.sin(theta)
-    mat = np.matrix([[ct, 0, st], [0, 1, 0], [-st, 0, ct]])
-    mat = np.asmatrix(mat.round(15))
+    mat = np.array([[ct, 0, st], [0, 1, 0], [-st, 0, ct]])
+    mat = np.around(mat,15)
     return mat
 
 
@@ -62,11 +62,11 @@ def rotz(theta, unit="rad"):
     """
     ROTZ Rotation about Z axis
 
-    :param theta: angle for rotation matrix
+    :param theta: angle for rotation array
     :param unit: unit of input passed. 'rad' or 'deg'
-    :return: rotation matrix
+    :return: rotation array
 
-    rotz(THETA) is an SO(3) rotation matrix (3x3) representing a rotation
+    rotz(THETA) is an SO(3) rotation array (3x3) representing a rotation
     of THETA radians about the z-axis
     rotz(THETA, "deg") as above but THETA is in degrees
     """
@@ -75,8 +75,8 @@ def rotz(theta, unit="rad"):
         theta = theta * math.pi / 180
     ct = math.cos(theta)
     st = math.sin(theta)
-    mat = np.matrix([[ct, -st, 0], [st, ct, 0], [0, 0, 1]])
-    mat = np.asmatrix(mat.round(15))
+    mat = np.array([[ct, -st, 0], [st, ct, 0], [0, 0, 1]])
+    mat = np.around(mat,15)
     return mat
 
 
@@ -88,7 +88,7 @@ def trotx(theta, unit="rad", xyz=[0, 0, 0]):
     :param theta: rotation in radians or degrees
     :param unit: "rad" or "deg" to indicate unit being used
     :param xyz: the xyz translation, if blank defaults to [0,0,0]
-    :return: homogeneous transform matrix
+    :return: homogeneous transform array
 
     trotx(THETA) is a homogeneous transformation (4x4) representing a rotation
     of THETA radians about the x-axis.
@@ -99,7 +99,7 @@ def trotx(theta, unit="rad", xyz=[0, 0, 0]):
     tm = rotx(theta, unit)
     tm = np.r_[tm, np.zeros((1, 3))]
     mat = np.c_[tm, np.array([[xyz[0]], [xyz[1]], [xyz[2]], [1]])]
-    mat = np.asmatrix(mat.round(15))
+    mat = np.around(mat,15)
     return mat
 
 
@@ -111,7 +111,7 @@ def troty(theta, unit="rad", xyz=[0, 0, 0]):
     :param theta: rotation in radians or degrees
     :param unit: "rad" or "deg" to indicate unit being used
     :param xyz: the xyz translation, if blank defaults to [0,0,0]
-    :return: homogeneous transform matrix
+    :return: homogeneous transform array
 
     troty(THETA) is a homogeneous transformation (4x4) representing a rotation
     of THETA radians about the y-axis.
@@ -122,7 +122,7 @@ def troty(theta, unit="rad", xyz=[0, 0, 0]):
     tm = roty(theta, unit)
     tm = np.r_[tm, np.zeros((1, 3))]
     mat = np.c_[tm, np.array([[xyz[0]], [xyz[1]], [xyz[2]], [1]])]
-    mat = np.asmatrix(mat.round(15))
+    mat = np.around(mat,15)
     return mat
 
 
@@ -134,7 +134,7 @@ def trotz(theta, unit="rad", xyz=[0, 0, 0]):
     :param theta: rotation in radians or degrees
     :param unit: "rad" or "deg" to indicate unit being used
     :param xyz: the xyz translation, if blank defaults to [0,0,0]
-    :return: homogeneous transform matrix
+    :return: homogeneous transform array
 
     trotz(THETA) is a homogeneous transformation (4x4) representing a rotation
     of THETA radians about the z-axis.
@@ -145,87 +145,87 @@ def trotz(theta, unit="rad", xyz=[0, 0, 0]):
     tm = rotz(theta, unit)
     tm = np.r_[tm, np.zeros((1, 3))]
     mat = np.c_[tm, np.array([[xyz[0]], [xyz[1]], [xyz[2]], [1]])]
-    mat = np.asmatrix(mat.round(15))
+    mat = np.around(mat,15)
     return mat
 
 
 # ---------------------------------------------------------------------------------------#
 def r2t(rmat):
     """
-    R2T Convert rotation matrix to a homogeneous transform
+    R2T Convert rotation array to a homogeneous transform
 
-    :param rmat: rotation matrix
+    :param rmat: rotation array
     :return: homogeneous transformation
 
     R2T(rmat) is an SE(2) or SE(3) homogeneous transform equivalent to an
-    SO(2) or SO(3) orthonormal rotation matrix rmat with a zero translational
+    SO(2) or SO(3) orthonormal rotation array rmat with a zero translational
     component. Works for T in either SE(2) or SE(3):
     if rmat is 2x2 then return is 3x3, or
     if rmat is 3x3 then return is 4x4.
 
     Translational component is zero.
     """
-    assert isinstance(rmat, np.matrix)
+    assert isinstance(rmat, np.ndarray)
     dim = rmat.shape
     if dim[0] != dim[1]:
-        raise ValueError(' Matrix Must be square ')
+        raise ValueError(' array Must be square ')
     elif dim[0] == 2:
         tmp = np.r_[rmat, np.zeros((1, 2))]
         mat = np.c_[tmp, np.array([[0], [0], [1]])]
-        mat = np.asmatrix(mat.round(15))
+        mat = np.around(mat,15)
         return mat
     elif dim[0] == 3:
         tmp = np.r_[rmat, np.zeros((1, 3))]
         mat = np.c_[tmp, np.array([[0], [0], [0], [1]])]
-        mat = np.asmatrix(mat.round(15))
+        mat = np.around(mat,15)
         return mat
     else:
-        raise ValueError(' Value must be a rotation matrix ')
+        raise ValueError(' Value must be a rotation array ')
 
 
 # ---------------------------------------------------------------------------------------#
 def t2r(tmat):
     """
-    R2T Convert homogeneous transform to a rotation matrix
+    R2T Convert homogeneous transform to a rotation array
 
     :param tmat: homogeneous transform
-    :return: rotation matrix
+    :return: rotation array
 
-    T2R(tmat) is the orthonormal rotation matrix component of homogeneous
-    transformation matrix tmat.  Works for T in SE(2) or SE(3)
+    T2R(tmat) is the orthonormal rotation array component of homogeneous
+    transformation array tmat.  Works for T in SE(2) or SE(3)
     if tmat is 3x3 then return is 2x2, or
     if tmat is 4x4 then return is 3x3.
 
     Validity of rotational part is not checked
     """
-    assert isinstance(tmat, np.matrix)
+    assert isinstance(tmat, np.ndarray)
     dim = tmat.shape
     if dim[0] != dim[1]:
-        raise ValueError(' Matrix Must be square ')
+        raise ValueError(' array Must be square ')
     elif dim[0] == 3:
         tmp = np.delete(tmat, [2], axis=0)
         mat = np.delete(tmp, [2], axis=1)
-        mat = np.asmatrix(mat.round(15))
+        mat = np.around(mat,15)
         return mat
     elif dim[0] == 4:
         tmp = np.delete(tmat, [3], axis=0)
         mat = np.delete(tmp, [3], axis=1)
-        mat = np.asmatrix(mat.round(15))
+        mat = np.around(mat,15)
         return mat
     else:
-        raise ValueError('Value must be a rotation matrix ')
+        raise ValueError('Value must be a rotation array ')
 
 
 # ---------------------------------------------------------------------------------------#
 def rot2(theta, unit='rad'):
     """
-    ROT2 SO(2) Rotational Matrix
+    ROT2 SO(2) Rotational array
 
     :param theta: rotation in radians or degrees
     :param unit: "rad" or "deg" to indicate unit being used
-    :return: rotational matrix (2x2)
+    :return: rotational array (2x2)
 
-    ROT2(THETA) is an SO(2) rotation matrix (2x2) representing a rotation of THETA radians.
+    ROT2(THETA) is an SO(2) rotation array (2x2) representing a rotation of THETA radians.
     ROT2(THETA, 'deg') as above but THETA is in degrees.
     """
     check_args.unit_check(unit)
@@ -233,19 +233,19 @@ def rot2(theta, unit='rad'):
         theta = theta * math.pi / 180
     ct = math.cos(theta)
     st = math.sin(theta)
-    mat = np.matrix([[ct, -st], [st, ct]])
-    mat = np.asmatrix(mat.round(15))
+    mat = np.array([[ct, -st], [st, ct]])
+    mat = np.around(mat,15)
     return mat
 
 
 # ---------------------------------------------------------------------------------------#
 def trot2(theta, unit='rad'):
     """
-    TROT2 SE2 rotation matrix
+    TROT2 SE2 rotation array
 
     :param theta: rotation in radians or degrees
     :param unit: "rad" or "deg" to indicate unit being used
-    :return: homogeneous transform matrix (3x3)
+    :return: homogeneous transform array (3x3)
 
     TROT2(THETA) is a homogeneous transformation (3x3) representing a rotation of
     THETA radians.
@@ -262,23 +262,23 @@ def trot2(theta, unit='rad'):
 # ---------------------------------------------------------------------------------------#
 def rpy2r(thetas, order='zyx', unit='rad'):
     """
-    RPY2R Roll-pitch-yaw angles to rotation matrix
+    RPY2R Roll-pitch-yaw angles to rotation array
 
     :param thetas: list of angles
     :param order: 'xyz', 'zyx' or 'yxz'
     :param unit: 'rad' or 'deg'
-    :return: rotation matrix
+    :return: rotation array
 
-    RPY2R(ROLL, PITCH, YAW, OPTIONS) is an SO(3) orthonormal rotation matrix
+    RPY2R(ROLL, PITCH, YAW, OPTIONS) is an SO(3) orthonormal rotation array
     (3x3) equivalent to the specified roll, pitch, yaw angles angles.
     These correspond to rotations about the Z, Y, X axes respectively. If ROLL,
     PITCH, YAW are column vectors (Nx1) then they are assumed to represent a
-    trajectory and R is a three-dimensional matrix (3x3xN), where the last index
+    trajectory and R is a three-dimensional array (3x3xN), where the last index
     corresponds to rows of ROLL, PITCH, YAW.
 
     R = RPY2R(RPY, OPTIONS) as above but the roll, pitch, yaw angles are taken
-    from the vector (1x3) RPY=[ROLL,PITCH,YAW]. If RPY is a matrix(Nx3) then R
-    is a three-dimensional matrix (3x3xN), where the last index corresponds to
+    from the vector (1x3) RPY=[ROLL,PITCH,YAW]. If RPY is a array(Nx3) then R
+    is a three-dimensional array (3x3xN), where the last index corresponds to
     rows of RPY which are assumed to be [ROLL,PITCH,YAW].
 
     Options::
@@ -339,7 +339,7 @@ def rpy2r(thetas, order='zyx', unit='rad'):
 	        		R[r] *= z[r]   	
         	r += 1
 
-        R = [np.asmatrix(each.round(15)) for each in R]
+        R = [np.around(each,15) for each in R]
         if len(R) == 1:
             return R[0]
         else:
@@ -358,19 +358,19 @@ def rpy2tr(thetas, order='zyx', unit='rad'):
     :param thetas: list of angles
     :param order: order can be 'xyz'/'arm', 'zyx'/'vehicle', 'yxz'/'camera'
     :param unit: unit of input angles
-    :return: homogeneous transformation matrix
+    :return: homogeneous transformation array
 
     T = RPY2TR(ROLL, PITCH, YAW, OPTIONS) is an SE(3) homogeneous
-    transformation matrix (4x4) with zero translation and rotation equivalent
+    transformation array (4x4) with zero translation and rotation equivalent
     to the specified roll, pitch, yaw angles angles. These correspond to
     rotations about the Z, Y, X axes respectively. If ROLL, PITCH, YAW are
     column vectors (Nx1) then they are assumed to represent a trajectory and
-    R is a three-dimensional matrix (4x4xN), where the last index corresponds
+    R is a three-dimensional array (4x4xN), where the last index corresponds
     to rows of ROLL, PITCH, YAW.
 
     T = RPY2TR(RPY, OPTIONS) as above but the roll, pitch, yaw angles are
-    taken from the vector (1x3) RPY=[ROLL,PITCH,YAW]. If RPY is a matrix
-    (Nx3) then R is a three-dimensional matrix (4x4xN), where the last index
+    taken from the vector (1x3) RPY=[ROLL,PITCH,YAW]. If RPY is a array
+    (Nx3) then R is a three-dimensional array (4x4xN), where the last index
     corresponds to rows of RPY which are assumed to be
     ROLL,PITCH,YAW].
 
@@ -399,8 +399,8 @@ def skew(v):
     SKEW creates Skew-symmetric metrix from vector
 
     :param v: 1 or 3 vector
-    :return: skew-symmetric matrix
-    SKEW(V) is a skew-symmetric matrix formed from V.
+    :return: skew-symmetric array
+    SKEW(V) is a skew-symmetric array formed from V.
 
     If V (1x1) then S =
             | 0  -v |
@@ -415,10 +415,11 @@ def skew(v):
     - This is the inverse of the function VEX().
     - These are the generator matrices for the Lie algebras so(2) and so(3).
     """
+    v = v.reshape(1,v.size)
     if common.isvec(v, 3):
-        s = np.matrix([[0, -v[0, 2], v[0, 1]], [v[0, 2], 0, -v[0, 0]], [-v[0, 1], v[0, 0], 0]])
+        s = np.array([[0, -v[0, 2], v[0, 1]], [v[0, 2], 0, -v[0, 0]], [-v[0, 1], v[0, 0], 0]])
     elif common.isvec(v, 1):
-        s = np.matrix([[0, -v[0, 0]], [v[0, 0], 0]])
+        s = np.array([[0, -v[0, 0]], [v[0, 0], 0]])
     else:
         raise AttributeError("argument must be a 1- or 3-vector")
     return s
@@ -427,12 +428,12 @@ def skew(v):
 # ---------------------------------------------------------------------------------------#
 def skewa(s):
     """
-    SKEWA creates augmented skew-symmetric matrix
+    SKEWA creates augmented skew-symmetric array
 
     :param s: 3 or 6 vector
-    :return: augmented skew-symmetric matrix
+    :return: augmented skew-symmetric array
 
-    SKEWA(V) is an augmented skew-symmetric matrix formed from V.
+    SKEWA(V) is an augmented skew-symmetric array formed from V.
 
     If V (1x3) then S =
            |  0  -v3  v1 |
@@ -451,12 +452,13 @@ def skewa(s):
     - Map twist vectors in 2D and 3D space to se(2) and se(3).
     """
     s = s.flatten(1)
+    s = s.reshape(1,s.size)
     if s.size == 3:
-        omega = np.concatenate((skew(np.matrix(s[0, 2])), [[s[0, 0]], [s[0, 1]]]), axis=1)
+        omega = np.concatenate((skew(np.array(s[0, 2])), [[s[0, 0]], [s[0, 1]]]), axis=1)
         omega = np.concatenate((omega, [[0, 0, 0]]), axis=0)
         return omega
     elif s.size == 6:
-        omega = np.concatenate((skew(np.matrix([s[0, 3], s[0, 4], s[0, 5]])), [[s[0, 0]], [s[0, 1]], [s[0, 2]]]),
+        omega = np.concatenate((skew(np.array([s[0, 3], s[0, 4], s[0, 5]])), [[s[0, 0]], [s[0, 1]], [s[0, 2]]]),
                                axis=1)
         omega = np.concatenate((omega, [[0, 0, 0, 0]]), axis=0)
         return omega
@@ -485,15 +487,15 @@ def unitize(v):
 # ---------------------------------------------------------------------------------------#
 def angvec2r(theta, v):
     """
-    ANGVEC2R(THETA, V) is an orthonormal rotation matrix (3x3)
+    ANGVEC2R(THETA, V) is an orthonormal rotation array (3x3)
     equivalent to a rotation of THETA about the vector V.
 
     :param theta: rotation in radians
     :param v: vector
-    :return: rotation matrix
+    :return: rotation array
 
     Notes::
-    - If THETA == 0 then return identity matrix.
+    - If THETA == 0 then return identity array.
     - If THETA ~= 0 then V must have a finite length.
     """
     if np.isscalar(theta) is False or common.isvec(v) is False:
@@ -504,7 +506,7 @@ def angvec2r(theta, v):
             raise AttributeError("Bad arguments")
         else:
             return np.eye(3)
-    sk = skew(np.matrix(unitize(v)))
+    sk = skew(np.array(unitize(v)))
     m = np.eye(3) + np.sin(theta) * sk + (1 - np.cos(theta)) * sk * sk
     return m
 
@@ -512,16 +514,16 @@ def angvec2r(theta, v):
 # ---------------------------------------------------------------------------------------#
 def angvec2tr(theta, v):
     """
-    ANGVEC2TR(THETA, V) is a homogeneous transform matrix (4x4) equivalent to a
+    ANGVEC2TR(THETA, V) is a homogeneous transform array (4x4) equivalent to a
     rotation of THETA about the vector V.
 
     :param theta: rotation in radians
     :param v: vector
-    :return: homogenous transform matrix
+    :return: homogenous transform array
 
     Notes::
     - The translational part is zero.
-    - If THETA == 0 then return identity matrix.
+    - If THETA == 0 then return identity array.
     - If THETA ~= 0 then V must have a finite length.
     """
     return r2t(angvec2r(theta, v))
@@ -530,12 +532,12 @@ def angvec2tr(theta, v):
 # ---------------------------------------------------------------------------------------#
 def vex(s):
     """
-    VEX Convert skew-symmetric matrix to vector
+    VEX Convert skew-symmetric array to vector
 
-    :param s:skew-symmetric matrix
+    :param s:skew-symmetric array
     :return: vector
 
-    VEX(S) is the vector which has the corresponding skew-symmetric matrix S.
+    VEX(S) is the vector which has the corresponding skew-symmetric array S.
     In the case that S (2x2) then V is 1x1
            S = | 0  -v |
                | v   0 |
@@ -546,17 +548,17 @@ def vex(s):
 
     Notes::
     - This is the inverse of the function SKEW().
-    - Only rudimentary checking (zero diagonal) is done to ensure that the matrix
+    - Only rudimentary checking (zero diagonal) is done to ensure that the array
     is actually skew-symmetric.
     - The function takes the mean of the two elements that correspond to each unique
-    element of the matrix.
+    element of the array.
     """
     if s.shape == (3, 3):
-        return 0.5 * np.matrix([[s[2, 1] - s[1, 2]], [s[0, 2] - s[2, 0]], [s[1, 0] - s[0, 1]]])
+        return 0.5 * np.array([[s[2, 1] - s[1, 2]], [s[0, 2] - s[2, 0]], [s[1, 0] - s[0, 1]]])
     elif s.shape == (2, 2):
-        return 0.5 * np.matrix([[s[1, 0] - s[0, 1]]])
+        return 0.5 * np.array([[s[1, 0] - s[0, 1]]])
     else:
-        raise AttributeError("Argument must be 2x2 or 3x3 matrix")
+        raise AttributeError("Argument must be 2x2 or 3x3 array")
 
 
 # ---------------------------------------------------------------------------------------#
@@ -564,11 +566,11 @@ def tr2rt(t):
     """
     TR2RT Convert homogeneous transform to rotation and translation
 
-    :param t: homogeneous transform matrix
+    :param t: homogeneous transform array
     :return: Rotation and translation of the homogeneous transform
 
-    TR2RT(TR) splits a homogeneous transformation matrix (NxN) into an orthonormal
-    rotation matrix R (MxM) and a translation vector T (Mx1), where N=M+1.
+    TR2RT(TR) splits a homogeneous transformation array (NxN) into an orthonormal
+    rotation array R (MxM) and a translation vector T (Mx1), where N=M+1.
 
     Works for TR in SE(2) or SE(3)
     - If TR is 4x4, then R is 3x3 and T is 3x1.
@@ -577,12 +579,12 @@ def tr2rt(t):
     if t.shape == (4, 4):
         assert t.shape[0] == t.shape[1]
         R = t2r(t)
-        t = np.matrix([[t[0, 3]], [t[1, 3]], [t[2, 3]]])
+        t = np.array([[t[0, 3]], [t[1, 3]], [t[2, 3]]])
         return [R, t]
     else:
         assert t.shape[0] == t.shape[1]
         R = t2r(t)
-        t = np.matrix([[t[0, 2]], [t[1, 2]]])
+        t = np.array([[t[0, 2]], [t[1, 2]]])
         return [R, t]
 
 
@@ -591,12 +593,12 @@ def rt2tr(r, t):
     """
     RT2TR Convert rotation and translation to homogeneous transform
 
-    :param r: rotation matrix
+    :param r: rotation array
     :param t: translation
     :return: homogeneous transform
 
-    RT2TR(R, t) is a homogeneous transformation matrix (N+1xN+1) formed from an
-    orthonormal rotation matrix R (NxN) and a translation vector t
+    RT2TR(R, t) is a homogeneous transformation array (N+1xN+1) formed from an
+    orthonormal rotation array R (NxN) and a translation vector t
     (Nx1).  Works for R in SO(2) or SO(3):
     - If R is 2x2 and t is 2x1, then TR is 3x3
     - If R is 3x3 and t is 3x1, then TR is 4x4
@@ -607,7 +609,7 @@ def rt2tr(r, t):
         if r.shape[0] != t.shape[0]:
             raise AttributeError("R and t must have the same number of rows")
         tr = np.concatenate((r, t), axis=1)
-        tr = np.concatenate((tr, np.matrix([[0, 0, 1]])), axis=0)
+        tr = np.concatenate((tr, np.array([[0, 0, 1]])), axis=0)
         return tr
     else:
         if r.shape[0] != r.shape[1]:
@@ -615,16 +617,16 @@ def rt2tr(r, t):
         if r.shape[0] != t.shape[0]:
             raise AttributeError("R and t must have the same number of rows")
         tr = np.concatenate((r, t), axis=1)
-        tr = np.concatenate((tr, np.matrix([[0, 0, 0, 1]])), axis=0)
+        tr = np.concatenate((tr, np.array([[0, 0, 0, 1]])), axis=0)
         return tr
 
 
 # ---------------------------------------------------------------------------------------#
 def trlog(T):
     """
-    TRLOG logarithm of SO(3) or SE(3) matrix
+    TRLOG logarithm of SO(3) or SE(3) array
 
-    :param T: SO(3) or SE(3) Matrix
+    :param T: SO(3) or SE(3) array
     :return: [rotation, vector]
 
     [theta,w] = trlog(R) as above but returns directly theta the rotation angle and w
@@ -634,17 +636,17 @@ def trlog(T):
     and a twist vector (6x1) comprising [v w].
 
     Notes::
-    - Efficient closed-form solution of the matrix logarithm for arguments that are
+    - Efficient closed-form solution of the array logarithm for arguments that are
     SO(3) or SE(3).
     - Special cases of rotation by odd multiples of pi are handled.
     - Angle is always in the interval [0,pi].
     """
     tr = T.trace()
     if common.isrot(T):
-        # deal with rotation matrix
+        # deal with rotation array
         R = T
         if abs(tr[0, 0] - 3) < 100 * np.spacing([1])[0]:
-            # matrix is identity
+            # array is identity
             w = [0, 0, 0]
             theta = 0
         elif abs(tr[0, 0] + 1) < 100 * np.spacing([1])[0]:
@@ -663,12 +665,12 @@ def trlog(T):
             w = vex(skw)
         return [theta, w]
     elif common.ishomog(T, [T.shape[0], T.shape[1]]):
-        # SE(3) matrix
+        # SE(3) array
         [R, t] = tr2rt(T)
 
         if (tr - 3) < 100 * np.spacing([1])[0]:
-            # is identity matrix
-            w = np.matrix([[0, 0, 0]])
+            # is identity array
+            w = np.array([[0, 0, 0]])
             v = t
             theta = 1
             skw = np.zeros(3)
@@ -680,23 +682,23 @@ def trlog(T):
         v = Ginv * t
         return [theta, w]
     else:
-        raise AttributeError("Expect SO(3) or SE(3) matrix")
+        raise AttributeError("Expect SO(3) or SE(3) array")
 
 
 # ------------------------------------------------------------------------------------------------------------------- #
 def tr2angvec(tr, unit='rad'):
     """
-    TR2ANGVEC Convert rotation matrix to angle-vector form
-    :param tr: Rotation matrix
+    TR2ANGVEC Convert rotation array to angle-vector form
+    :param tr: Rotation array
     :param unit: 'rad' or 'deg'
     :return: Angle-vector form
-    TR2ANGVEC(R, OPTIONS) is rotation expressed in terms of an angle THETA (1x1) about the axis V (1x3) equivalent to the orthonormal rotation matrix R (3x3).
+    TR2ANGVEC(R, OPTIONS) is rotation expressed in terms of an angle THETA (1x1) about the axis V (1x3) equivalent to the orthonormal rotation array R (3x3).
     TR2ANGVEC(T, OPTIONS) as above but uses the rotational part of the homogeneous transform T (4x4).
     If R (3x3xK) or T (4x4xK) represent a sequence then THETA (Kx1)is a vector of angles for corresponding elements of the sequence and V (Kx3) are the corresponding axes, one per row.
     Options::
     'deg'   Return angle in degrees
     Notes::
-    - For an identity rotation matrix both THETA and V are set to zero.
+    - For an identity rotation array both THETA and V are set to zero.
     - The rotation angle is always in the interval [0 pi], negative rotation is handled by inverting the direction of the rotation axis.
     - If no output arguments are specified the result is displayed.
     """
@@ -728,9 +730,9 @@ def tr2angvec(tr, unit='rad'):
                     theta[i, 0] = theta[i, 0] * 180 / math.pi
                 print('Rotation: ', theta[i, 0], unit, 'x', '[', n[i, :], ']')
             else:
-                raise TypeError('Matrix in not orthonormal.')
+                raise TypeError('array in not orthonormal.')
     else:
-        raise TypeError('Argument must be a SO(3) or SE(3) matrix.')
+        raise TypeError('Argument must be a SO(3) or SE(3) array.')
 
 
 # ------------------------------------------------------------------------------------------------------------------- #
@@ -742,7 +744,7 @@ def tr2eul(tr, unit='rad', flip=False):
     :param flip: True or False
     :return: Euler angles
     TR2EUL(T, OPTIONS) are the ZYZ Euler angles (1x3) corresponding to the rotational part of a homogeneous transform T (4x4). The 3 angles EUL=[PHI,THETA,PSI] correspond to sequential rotations about the Z, Y and Z axes respectively.
-    TR2EUL(R, OPTIONS) as above but the input is an orthonormal rotation matrix R (3x3).
+    TR2EUL(R, OPTIONS) as above but the input is an orthonormal rotation array R (3x3).
     If R (3x3xK) or T (4x4xK) represent a sequence then each row of EUL corresponds to a step of the sequence.
     Options::
     'deg'   Compute angles in degrees (radians default)
@@ -793,7 +795,7 @@ def tr2rpy(tr, unit='rad', order='zyx'):
     :param order: 'xyz', 'zyx' or 'yxz'
     :return: Roll-pitch-yaw angle
     TR2RPY(T, options) are the roll-pitch-yaw angles (1x3) corresponding to the rotation part of a homogeneous transform T. The 3 angles RPY=[R,P,Y] correspond to sequential rotations about the Z, Y and X axes respectively.
-    TR2RPY(R, options) as above but the input is an orthonormal rotation matrix R (3x3).
+    TR2RPY(R, options) as above but the input is an orthonormal rotation array R (3x3).
     If R (3x3xK) or T (4x4xK) represent a sequence then each row of RPY corresponds to a step of the sequence.
     Options::
     'deg'   Compute angles in degrees (radians default)
@@ -853,7 +855,7 @@ def tr2rpy(tr, unit='rad', order='zyx'):
                 rpy[0, 1] = math.atan2(-math.cos(rpy[0, 0]) * tr[1, 2], tr[1, 1])
                 rpy[0, 2] = math.atan2(tr[0, 2], tr[2, 2])
     else:
-        raise TypeError('Argument must be a 3x3 or 4x4 matrix.')
+        raise TypeError('Argument must be a 3x3 or 4x4 array.')
 
     if unit == 'deg':
         rpy = rpy * 180 / math.pi
@@ -864,15 +866,15 @@ def tr2rpy(tr, unit='rad', order='zyx'):
 # ---------------------------------------------------------------------------------------#
 def trexp(S, theta=None):
     """
-    TREXP matrix exponential for so(3) and se(3)
+    TREXP array exponential for so(3) and se(3)
 
     :param S: SO(3), SE(3), unit vector or twist vector
     :param theta: Rotation in radians
-    :return: matrix exponential
+    :return: array exponential
     For so(3)::
 
-    TREXP(OMEGA) is the matrix exponential (3x3) of the so(3) element OMEGA that
-    yields a rotation matrix (3x3).
+    TREXP(OMEGA) is the array exponential (3x3) of the so(3) element OMEGA that
+    yields a rotation array (3x3).
 
     TREXP(OMEGA, THETA) as above, but so(3) motion of THETA*OMEGA.
 
@@ -883,8 +885,8 @@ def trexp(S, theta=None):
 
     For se(3)::
 
-    TREXP(SIGMA) is the matrix exponential (4x4) of the se(3) element SIGMA that
-    yields a homogeneous transformation  matrix (4x4).
+    TREXP(SIGMA) is the array exponential (4x4) of the se(3) element SIGMA that
+    yields a homogeneous transformation  array (4x4).
 
     TREXP(TW) as above, but the se(3) value is expressed as a twist vector TW (1x6).
 
@@ -895,10 +897,10 @@ def trexp(S, theta=None):
     of TW (1x6) must be unit norm.
 
     Notes::
-    - Efficient closed-form solution of the matrix exponential for arguments
+    - Efficient closed-form solution of the array exponential for arguments
     that are so(3) or se(3).
     - If theta is given then the first argument must be a unit vector or a
-    skew-symmetric matrix from a unit vector.
+    skew-symmetric array from a unit vector.
     - Angle vector argument order is different to ANGVEC2R.
     """
     if common.ishomog(S, [4, 4]) or common.isvec(S, 6):
@@ -911,7 +913,7 @@ def trexp(S, theta=None):
                 [skw, v] = tr2rt(S)
             else:
                 v = S[:, 0]
-                skw = skew(np.matrix([[S[0, 3], S[0, 4], S[0, 5]]]))
+                skw = skew(np.array([[S[0, 3], S[0, 4], S[0, 5]]]))
             R = trexp(skw, theta)
             t = (np.eye(3) + np.sin(theta) * skw + (1 - np.cos(theta)) * skw * skw) * v
             return rt2tr(R, t)
@@ -940,21 +942,21 @@ def trexp(S, theta=None):
 # ---------------------------------------------------------------------------------------#
 def trexp2(S, theta=None):
     """
-    TREXP2 matrix exponential for so(2) and se(2)
+    TREXP2 array exponential for so(2) and se(2)
 
     :param S:S: SO(2), SE(2) or unit vector
     :param theta:
-    :return: matrix exponential
+    :return: array exponential
 
-    R = TREXP2(OMEGA) is the matrix exponential (2x2) of the so(2) element OMEGA that
-    yields a rotation matrix (2x2).
+    R = TREXP2(OMEGA) is the array exponential (2x2) of the so(2) element OMEGA that
+    yields a rotation array (2x2).
 
     R = TREXP2(THETA) as above, but rotation by THETA (1x1).
 
     SE(2)::
 
-    T = TREXP2(SIGMA) is the matrix exponential (3x3) of the se(2) element
-    SIGMA that yields a homogeneous transformation  matrix (3x3).
+    T = TREXP2(SIGMA) is the array exponential (3x3) of the se(2) element
+    SIGMA that yields a homogeneous transformation  array (3x3).
 
     T = TREXP2(TW) as above, but the se(2) value is expressed as a vector TW
     (1x3).
@@ -966,10 +968,10 @@ def trexp2(S, theta=None):
     rotation part of TW must be unit norm.
 
     Notes::
-    - Efficient closed-form solution of the matrix exponential for arguments that are
+    - Efficient closed-form solution of the array exponential for arguments that are
       so(2) or se(2).
     - If theta is given then the first argument must be a unit vector or a
-      skew-symmetric matrix from a unit vector.
+      skew-symmetric array from a unit vector.
     """
     if common.ishomog(S, [3, 3]) or common.isvec(S, 3):
         if theta is None:
@@ -1010,17 +1012,17 @@ def trexp2(S, theta=None):
 # ---------------------------------------------------------------------------------------#
 def oa2r(o, a=None):
     """
-    OA2R Convert orientation and approach vectors to rotation matrix
+    OA2R Convert orientation and approach vectors to rotation array
 
     :param o: vector parallel to Y- axes
     :param a: vector parallel to the z-axes
-    :return: rotation matrix
+    :return: rotation array
 
-    R = OA2R(O, A) is an SO(3) rotation matrix (3x3) for the specified orientation
+    R = OA2R(O, A) is an SO(3) rotation array (3x3) for the specified orientation
     and approach vectors (3x1) formed from 3 vectors such that R = [N O A] and N = O x A.
 
     Notes::
-    - The matrix is guaranteed to be orthonormal so long as O and A are not parallel.
+    - The array is guaranteed to be orthonormal so long as O and A are not parallel.
     - The vectors O and A are parallel to the Y- and Z-axes of the coordinate frame.
     """
     n = np.cross(o, a)
@@ -1028,7 +1030,7 @@ def oa2r(o, a=None):
     i = unitize(n)
     j = unitize(o)
     k = unitize(a)
-    R = np.matrix([[i[0, 0], j[0, 0], k[0, 0]], [i[0, 1], j[0, 1], k[0, 1]], [i[0, 2], j[0, 2], k[0, 2]]])
+    R = np.array([[i[0, 0], j[0, 0], k[0, 0]], [i[0, 1], j[0, 1], k[0, 1]], [i[0, 2], j[0, 2], k[0, 2]]])
     return R
 
 
@@ -1046,7 +1048,7 @@ def oa2tr(o, a=None):
     such that R = [N O A] and N = O x A.
 
     Notes::
-    - The rotation submatrix is guaranteed to be orthonormal so long as O and A
+    - The rotation subarray is guaranteed to be orthonormal so long as O and A
     are not parallel.
     - The translational part is zero.
     - The vectors O and A are parallel to the Y- and Z-axes of the coordinate frame.
@@ -1064,7 +1066,7 @@ def transl(x=None, y=None, z=None):
     :param z: translation along z axes
     :return: homogeneous transform with pure translation
 
-    Create a translational SE(3) matrix::
+    Create a translational SE(3) array::
 
     T = TRANSL(X, Y, Z) is an SE(3) homogeneous transform (4x4) representing a
     pure translation of X, Y and Z.
@@ -1074,7 +1076,7 @@ def transl(x=None, y=None, z=None):
     is a sequence of homogeneous transforms such that T(:,:,i) corresponds to
     the i'th row of P.
 
-    Extract the translational part of an SE(3) matrix::
+    Extract the translational part of an SE(3) array::
 
     P = TRANSL(T) is the translational part of a homogeneous transform T as a
     3-element column vector.  If T (4x4xM) is a homogeneous transform sequence
@@ -1086,17 +1088,17 @@ def transl(x=None, y=None, z=None):
     then X,Y,Z (1xM) are the translational components of the corresponding
     transform in the sequence.
    """
-    if type(x) is np.matrix:
+    if type(x) is np.array:
         if common.ishomog(x, [4, 4]):
             return x[:3, 2]
     elif type(x) is list:
         if len(x) == 3:
-            temp = np.matrix([[x[0]], [x[1]], [x[2]]])
+            temp = np.array([[x[0]], [x[1]], [x[2]]])
             temp = np.concatenate((np.eye(3), temp), axis=1)
-            return np.concatenate((temp, np.matrix([[0, 0, 0, 1]])), axis=0)
+            return np.concatenate((temp, np.array([[0, 0, 0, 1]])), axis=0)
     # todo trajectory case
     elif x is not None and y is not None and z is not None:
-        t = np.matrix([[x], [y], [z]])
+        t = np.array([[x], [y], [z]])
         return rt2tr(np.eye(3), t)
     else:
         raise AttributeError("Invalid arguments")
@@ -1109,10 +1111,10 @@ def transl2(x=None, y=None):
 
     :param x: x translation, homogeneous transform or a list of translations
     :param y: y translation
-    :return: homogeneous transform matrix or the translation elements of a
+    :return: homogeneous transform array or the translation elements of a
     homogeneous transform
 
-    Create a translational SE(2) matrix::
+    Create a translational SE(2) array::
 
     T = TRANSL2(X, Y) is an SE(2) homogeneous transform (3x3) representing a
     pure translation.
@@ -1122,47 +1124,47 @@ def transl2(x=None, y=None):
     sequence of homogeneous transforms such that T(:,:,i) corresponds to the
     i'th row of P.
 
-    Extract the translational part of an SE(2) matrix::
+    Extract the translational part of an SE(2) array::
 
     P = TRANSL2(T) is the translational part of a homogeneous transform as a
     2-element column vector.  If T (3x3xM) is a homogeneous transform
     sequence the rows of P (Mx2) are the translational component of the
     corresponding transform in the sequence.
     """
-    if type(x) is np.matrix:
+    if type(x) is np.array:
         if common.ishomog(x, [3, 3]):
             return x[:2, 2]
     elif type(x) is list:
         if len(x) == 2:
-            temp = np.matrix([[x[0]], [x[1]]])
+            temp = np.array([[x[0]], [x[1]]])
             temp = np.concatenate((np.eye(2), temp), axis=1)
-            return np.concatenate((temp, np.matrix([[0, 0, 1]])), axis=0)
+            return np.concatenate((temp, np.array([[0, 0, 1]])), axis=0)
     elif x is not None and y is not None:
-        t = np.matrix([[x], [y]])
+        t = np.array([[x], [y]])
         return rt2tr(np.eye(2), t)
 
 
 # ---------------------------------------------------------------------------------------#
 def eul2r(phi, theta=None, psi=None, unit='rad'):
     """
-    EUL2R Convert Euler angles to rotation matrix
+    EUL2R Convert Euler angles to rotation array
 
     :param phi: x axis rotation
     :param theta: y axis rotation
     :param psi: z axis rotation
     :param unit: 'rad' or 'deg' for angles
-    :return: rotation matrix
+    :return: rotation array
 
     R = EUL2R(PHI, THETA, PSI, UNIT) is an SO(3) orthonornal rotation
-    matrix (3x3) equivalent to the specified Euler angles.  These correspond
+    array (3x3) equivalent to the specified Euler angles.  These correspond
     to rotations about the Z, Y, Z axes respectively. If PHI, THETA, PSI are
     column vectors (Nx1) then they are assumed to represent a trajectory and
-    R is a three-dimensional matrix (3x3xN), where the last index corresponds
+    R is a three-dimensional array (3x3xN), where the last index corresponds
     to rows of PHI, THETA, PSI.
 
     R = EUL2R(EUL, OPTIONS) as above but the Euler angles are taken from the
-    vector (1x3)  EUL = [PHI THETA PSI]. If EUL is a matrix (Nx3) then R is a
-    three-dimensional matrix (3x3xN), where the last index corresponds to
+    vector (1x3)  EUL = [PHI THETA PSI]. If EUL is a array (Nx3) then R is a
+    three-dimensional array (3x3xN), where the last index corresponds to
     rows of RPY which are assumed to be [PHI,THETA,PSI].
 
     Options::
@@ -1172,7 +1174,7 @@ def eul2r(phi, theta=None, psi=None, unit='rad'):
     - The vectors PHI, THETA, PSI must be of the same length.
     """
     check_args.unit_check(unit)
-    if type(phi) is np.matrix and theta is None and psi is None:
+    if type(phi) is np.array and theta is None and psi is None:
         theta = phi[:, 1]
         psi = phi[:, 2]
         phi = phi[:, 0]
@@ -1203,19 +1205,19 @@ def eul2tr(phi, theta=None, psi=None, unit='rad'):
     :param theta: y axis rotation
     :param psi: z axis rotation
     :param unit: 'rad' or 'deg' for angles
-    :return: rotation matrix
+    :return: rotation array
 
     T = EUL2TR(PHI, THETA, PSI, OPTIONS) is an SE(3) homogeneous
-    transformation matrix (4x4) with zero translation and rotation equivalent
+    transformation array (4x4) with zero translation and rotation equivalent
     to the specified Euler angles. These correspond to rotations about the Z,
     Y, Z axes respectively. If PHI, THETA, PSI are column vectors (Nx1) then
     they are assumed to represent a trajectory and R is a three-dimensional
-    matrix (4x4xN), where the last index corresponds to rows of PHI, THETA,
+    array (4x4xN), where the last index corresponds to rows of PHI, THETA,
     PSI.
 
     R = EUL2R(EUL, OPTIONS) as above but the Euler angles are taken from the
-    vector (1x3)  EUL = [PHI THETA PSI]. If EUL is a matrix (Nx3) then R is a
-    three-dimensional matrix (4x4xN), where the last index corresponds to
+    vector (1x3)  EUL = [PHI THETA PSI]. If EUL is a array (Nx3) then R is a
+    three-dimensional array (4x4xN), where the last index corresponds to
     rows of RPY which are assumed to be [PHI,THETA,PSI].
 
     Options::
@@ -1232,7 +1234,7 @@ def eul2tr(phi, theta=None, psi=None, unit='rad'):
 # ---------------------------------------------------------------------------------------#
 def np2vtk(mat):
     if mat.shape == (4, 4):
-        obj = vtk.vtkMatrix4x4()
+        obj = vtk.vtkarray4x4()
         for i in range(4):
             for j in range(4):
                 obj.SetElement(i, j, mat[i, j])

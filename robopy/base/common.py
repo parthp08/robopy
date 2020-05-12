@@ -13,7 +13,7 @@ def ishomog(tr, dim, rtest=''):
     ISHOMOG(T, 'valid') as above, but also checks the validity of the rotation sub-matrix.
     See Also: isrot, ishomog2, isvec"""
     try:
-        assert type(tr) is np.matrix, "Argument should be a numpy matrix"
+        assert type(tr) is np.ndarray, "Argument should be a numpy matrix"
         assert dim == (3, 3) or dim == (4, 4)
     except AssertionError:
         return False
@@ -29,7 +29,7 @@ def ishomog(tr, dim, rtest=''):
         if flag and rtest == 'valid':
             flag = is_valid(tr[0])  # As in matlab code only first matrix is passed for validity test
             # TODO-Do we need to test all matrices in list for validity of rotation submatrix -- Yes
-    elif isinstance(tr, np.matrix):
+    elif isinstance(tr, np.ndarray):
         if tr.shape[0] == dim[0] and tr.shape[1] == dim[0]:
             if flag and rtest == 'valid':
                 flag = is_valid(tr)
@@ -44,7 +44,7 @@ def isvec(v, l=3):
     """
     ISVEC Test if vector
     """
-    assert type(v) is np.matrix
+    assert type(v) is np.ndarray
     d = v.shape
     h = len(d) == 2 and min(v.shape) == 1 and v.size == l
 
@@ -58,12 +58,12 @@ def isrot(rot, dtest=False):
     ISROT(rot, 'valid') as above, but also checks the validity of the rotation.
     See also  ISHOMOG, ISROT2, ISVEC.
     """
-    if type(rot) is np.matrix:
+    if type(rot) is np.ndarray:
         rot = [rot]
     if type(rot) is list:
         for each in rot:
             try:
-                assert type(each) is np.matrix
+                assert type(each) is np.ndarray
                 assert each.shape == (3, 3)
                 npt.assert_almost_equal(np.linalg.det(each), 1)
             except AssertionError:
@@ -72,12 +72,12 @@ def isrot(rot, dtest=False):
 
 
 def isrot2(rot, dtest=False):
-    if type(rot) is np.matrix:
+    if type(rot) is np.ndarray:
         rot = [rot]
     if type(rot) is list:
         for each in rot:
             try:
-                assert type(each) is np.matrix
+                assert type(each) is np.ndarray
                 assert each.shape == (2, 2)
                 npt.assert_almost_equal(np.linalg.det(each), 1)
             except AssertionError:
